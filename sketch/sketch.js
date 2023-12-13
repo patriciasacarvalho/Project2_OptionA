@@ -7,26 +7,28 @@ function preload() {
 }
 
 function setup() {
-  var width = document.getElementById('column_width');
-  let myCanvas1 = createCanvas(650, 500);
+  let canvasWidth = min(650, windowWidth - 20); // Adjusted canvas width
+  let myCanvas1 = createCanvas(canvasWidth, 500);
   myCanvas1.parent('mySketch');
 
   yearSlider = createSlider(2018, 2022, 2000);
-  yearSlider.position(250, 350 + 150);
-  yearSlider.style('width', '250px');
+  let sliderX = (width - 250) / 2; // Center the slider, assuming a fixed width of 250px
+  let sliderY = height + 40;
+  yearSlider.position(sliderX, sliderY);
+  yearSlider.style('width', '250px'); // Set the slider width explicitly
 
-    // Filter data for CHARLES RIVER, StationID = 012
-    let charlesRiver012Data = data.rows.filter(
-      (row) =>
-        row.get("Region") === "CHARLES RIVER" && row.get("StationID") === "012"
-    );
-    let charlesRiver166Data = data.rows.filter(
-      (row) =>
-        row.get("Region") === "CHARLES RIVER" && row.get("StationID") === "166"
-    );
+  // Filter data for CHARLES RIVER, StationID = 012
+  let charlesRiver012Data = data.rows.filter(
+    (row) =>
+      row.get("Region") === "CHARLES RIVER" && row.get("StationID") === "012"
+  );
+  let charlesRiver166Data = data.rows.filter(
+    (row) =>
+      row.get("Region") === "CHARLES RIVER" && row.get("StationID") === "166"
+  );
 
-    let filteredData = charlesRiver012Data.concat(charlesRiver166Data);
-    
+  let filteredData = charlesRiver012Data.concat(charlesRiver166Data);
+
   for (let i = 0; i < data.getRowCount(); i++) {
     let row = data.getRow(i);
     let enterococcusCount = row.getNum('Enterococcus');
@@ -81,7 +83,7 @@ function drawAxes() {
   textAlign(CENTER);
   textSize(16);
   text("Rainfall Intensity", width / 2, height - 1);
-  
+
   // Y-axis legend
   push();
   translate(25, height / 2); // Adjusted translation to increase left margin
@@ -93,6 +95,15 @@ function drawAxes() {
 function getYearFromDate(dateString) {
   let date = new Date(dateString);
   return date.getFullYear();
+}
+
+function windowResized() {
+  let canvasWidth = min(650, windowWidth - 20);
+  resizeCanvas(canvasWidth, 500);
+
+  let sliderX = (width - 250) / 2;
+  let sliderY = height + 40;
+  yearSlider.position(sliderX, sliderY);
 }
 
 class Point {
