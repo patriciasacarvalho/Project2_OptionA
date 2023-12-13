@@ -12,10 +12,10 @@ function setup() {
   myCanvas1.parent('mySketch');
 
   yearSlider = createSlider(2018, 2022, 2000);
-  let sliderX = (width - 250) / 2; // Center the slider, assuming a fixed width of 250px
+  let sliderX = (width - yearSlider.width) / 2; // Center the slider
   let sliderY = height + 40;
   yearSlider.position(sliderX, sliderY);
-  yearSlider.style('width', '250px'); // Set the slider width explicitly
+  yearSlider.style('width', '250px');
 
   // Filter data for CHARLES RIVER, StationID = 012
   let charlesRiver012Data = data.rows.filter(
@@ -101,7 +101,7 @@ function windowResized() {
   let canvasWidth = min(650, windowWidth - 20);
   resizeCanvas(canvasWidth, 500);
 
-  let sliderX = (width - 250) / 2;
+  let sliderX = (width - yearSlider.width) / 2;
   let sliderY = height + 40;
   yearSlider.position(sliderX, sliderY);
 }
